@@ -1,0 +1,4 @@
+interface:
+  display_name: "OpenClaw NVDA Add-on"
+  short_description: "Build practical NVDA add-ons with a tested workflow"
+  default_prompt: "Use $nvda to design, implement, validate, and package an NVDA add-on from a concrete feature request."
