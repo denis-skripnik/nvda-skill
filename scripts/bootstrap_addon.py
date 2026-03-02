@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import argparse
 from pathlib import Path
@@ -41,7 +41,7 @@ def _resolve_output_dir(raw_output_dir: str) -> Path:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Bootstrap a minimal NVDA add-on project.")
+    parser = argparse.ArgumentParser(description="Bootstrap an NVDA add-on project.")
     parser.add_argument("output_dir")
     parser.add_argument("addon_id")
     parser.add_argument("summary")
@@ -50,6 +50,11 @@ def main() -> int:
     parser.add_argument("--url", default="https://example.invalid")
     parser.add_argument("--gesture", default="nvda+shift+t")
     parser.add_argument("--script-description", default="Run the main action")
+    parser.add_argument(
+        "--advanced",
+        action="store_true",
+        help="Generate the advanced global plugin and list manager dialog templates.",
+    )
     args = parser.parse_args()
 
     try:
@@ -66,12 +71,14 @@ def main() -> int:
         "__SCRIPT_DESCRIPTION__": args.script_description,
     }
 
+    plugin_template = "advanced_global_plugin.py" if args.advanced else "global_plugin_init.py"
+
     _write_file(output_dir / "buildVars.py", _render(_read_template("buildVars.py"), mapping))
     _write_file(output_dir / "manifest.ini.tpl", _read_template("manifest.ini.tpl"))
     _write_file(output_dir / "build_addon.py", _read_template("build_addon.py"))
     _write_file(
         output_dir / "addon" / "globalPlugins" / args.addon_id / "__init__.py",
-        _render(_read_template("global_plugin_init.py"), mapping),
+        _render(_read_template(plugin_template), mapping),
     )
     _write_file(
         output_dir / "addon" / "globalPlugins" / args.addon_id / "configuration.py",
@@ -81,6 +88,11 @@ def main() -> int:
         output_dir / "addon" / "globalPlugins" / args.addon_id / "settings.py",
         _render(_read_template("settings_panel.py"), mapping),
     )
+    if args.advanced:
+        _write_file(
+            output_dir / "addon" / "globalPlugins" / args.addon_id / "dialogs.py",
+            _render(_read_template("list_manager_dialog.py"), mapping),
+        )
     _write_file(
         output_dir / "addon" / "doc" / "en" / "readme.md",
         _render(_read_template("readme.md"), mapping),

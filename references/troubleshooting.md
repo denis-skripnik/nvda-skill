@@ -1,4 +1,4 @@
-# Troubleshooting by Symptom
+﻿# Troubleshooting by Symptom
 
 ## Gestures do nothing
 
@@ -55,6 +55,34 @@ Use:
 
 - `threading.Thread(..., daemon=True)`
 - `wx.CallAfter(...)` for UI updates
+
+## Reminder or timer dialog never appears
+
+Check:
+
+- whether the due time is actually parsed from the real payload shape
+- local time versus UTC assumptions
+- the poll interval and deduplication token
+- `gui.mainFrame.prePopup()` / `postPopup()` around modal dialogs
+- that the actual dialog show call runs on the UI thread
+
+## The first open shows the window but focus stays in the previous app
+
+Check:
+
+- `Raise()` on the dialog
+- focus on a real child control instead of the top-level dialog
+- a follow-up activation via `wx.CallAfter(...)`
+- a delayed retry via `wx.CallLater(...)`
+
+## A once-per-day summary shows multiple times or not at all
+
+Check:
+
+- local-date deduplication
+- normalized `HH:MM` parsing
+- whether you set the “shown today” flag before or after the dialog
+- filtering logic for which tasks qualify
 
 ## The package builds but docs do not open
 
