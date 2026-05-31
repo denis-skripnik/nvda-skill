@@ -1,9 +1,11 @@
-﻿---
+---
 name: nvda
 description: Practical workflow for creating, updating, debugging, and packaging NVDA add-ons from concrete feature requests. Use when working on global plugins, app modules, gestures, settings panels, manifests, build scripts, `.nvda-addon` packaging, or NVDA runtime failures during add-on development. Use this skill for `/nvda` requests about add-on development.
+metadata:
+  command: /nvda
 ---
 
-# OpenClaw NVDA Add-on
+# NVDA Add-on Development
 
 Use this skill to turn a feature request into a working NVDA add-on, not into a
 theoretical design document.

@@ -1,4 +1,4 @@
-﻿# OpenClaw NVDA Skill
+﻿# NVDA Skill
 
 This skill packages a practical workflow for building, debugging, and packaging
 NVDA add-ons from concrete feature requests.
